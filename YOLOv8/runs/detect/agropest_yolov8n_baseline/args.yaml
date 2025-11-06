@@ -1,11 +1,11 @@
 task: detect
 mode: train
 model: yolov8n.pt
-data: C:\Users\jerry\OneDrive\Desktop\9517_Group_Project\dataset\data.yaml
+data: ..\dataset\data.yaml
 epochs: 50
 time: null
 patience: 100
-batch: -1
+batch: 16
 imgsz: 640
 save: true
 save_period: -1
@@ -18,7 +18,7 @@ exist_ok: false
 pretrained: true
 optimizer: auto
 verbose: true
-seed: 0
+seed: 42
 deterministic: true
 single_cls: false
 rect: false
@@ -103,4 +103,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: botsort.yaml
-save_dir: C:\Users\jerry\OneDrive\Desktop\9517_Group_Project\YOLOv8\runs\detect\agropest_yolov8n_baseline
+save_dir: C:\Users\jerry\OneDrive\Desktop\9517_Group_Project\YOLOv8\runs\detect\agropest_yolov8n_baseline3
