@@ -1,43 +1,269 @@
-# COMP9517 Group Project
+# COMP9517 Group Project - AgroPest-12 Insect Detection
 ## Term 3 2025
 
-### Group members:
-(add name & zid below)
-| Name          | zID        |
-|----------------|------------|
-| Jerry Zhou     | z5477946   |
-| Rishi Adhavaryu| z5420526   |
-| Zhaoyuan Xu    | z5615760   |
-| Member 4       | z          |
-| Member 5       | z          |
+### Authors
+| Name            | zID      | Contact                      |
+|-----------------|----------|------------------------------|
+| Jerry Zhou      | z5477946 | z5477946@ad.unsw.edu.au      |
+| Rishi Adhavaryu | z5420526 | z5420526@ad.unsw.edu.au      |
+| Zhaoyuan Xu     | z5615760 | z5615760@ad.unsw.edu.au      |
+| Yu Lu           | z5500140 | z5500140@ad.unsw.edu.au      |
+| Russell Shao    | z5500140 | z5500140@ad.unsw.edu.au      |
 
-# Dataset Distortion Script (advanced method development)
+---
 
-This Python script (`distortion_processing.py`) generates distorted versions of your original dataset to test model robustness. It creates two new datasets: `dataset_mild_distortion` and `dataset_strong_distortion`.
+## Project Overview
 
-## What the script does
-- Reads the original dataset structure:
-- Applies distortions to each image:
-  - Gaussian blur (`blur_ksize`)
-  - Gaussian noise (`noise_sigma`)
-  - Brightness/contrast adjustment (`brightness_alpha`, `brightness_beta`)
-  - Random occlusions (`occlusion_size`)
-- Saves distorted images to new dataset folders and copies the corresponding label files.
+This repository contains implementations of various computer vision models for insect detection and classification on the **AgroPest-12** dataset. The project explores multiple detection approaches including:
 
-## How to run:
-Make sure you are in the root directory. Run:
-`python distortion_processing.py` or ``python3 distortion_processing.py` depending on OS
+- **HOG + SVM** - Traditional feature extraction with classification
+- **Detectron2 (Faster R-CNN)** - Meta's detection framework, two stage detector + classifier
+- **YOLOv11n** - Latest YOLO architecture with attention modules, single stage detector + classifier
 
-This script will create 2 new directories in the root:
-`dataset_mild_distortion/`
-`dataset_strong_distortion/`
+Each model is evaluated on detection accuracy, classification performance, and robustness to image distortions. The repository includes comprehensive training notebooks, evaluation scripts, and tools for robustness testing.
 
-One dataset contains slight distortions and another one strong distortions. You can use these datasets to evaluate how your model performs on different levels of distortion, they are formatted the same way as the original dataset. If you only want to use the test set, and don't need training and validation, change this:
-`for split in ['train', 'valid', 'test']:`
-to 
-`for split in ['test']:`
+---
 
-Note: please don't push these datasets on github, store them locally, or we may run out of space
+## Repository Structure
 
-If your model requires a `.yaml` file, you will need to create your own and store it inside the correct directory.
+```
+.
+├── Detectron2/             # Detectron2 implementation
+├── HoG_Detector_v1.0/      # HOG feature detector with SVM classifier
+├── SVM/                    # SVM-based classification
+├── YOLOv11n/               # YOLOv11 nano model implementation 
+├── distortion_processing.py # Script to generate distorted test datasets
+├── requirements.txt        # Python dependencies
+└── README.md              # This file
+```
 
+**Note:** Due to file size constraints, the following are **not included** in this repository:
+- `dataset/` folder (original AgroPest-12 dataset)
+- Trained model weights
+- Generated output files (predictions, plots, etc.)
+- Distorted dataset variants (`dataset_mild_distortion/`, `dataset_strong_distortion/`)
+
+---
+
+## Getting Started
+
+### 1. Prerequisites
+
+- Python 3.8 or higher
+- CUDA-compatible GPU (recommended for training)
+- Jupyter Notebook or VS Code with Jupyter extension
+
+### 2. Environment Setup
+
+**Create a virtual environment:**
+
+```bash
+# Windows (PowerShell)
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# Linux/macOS
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+**Install dependencies:**
+
+```bash
+pip install -r requirements.txt
+```
+
+The main dependencies include:
+- `ultralytics` - YOLO models
+- `torch` - PyTorch deep learning framework
+- `opencv-python` - Image processing
+- `matplotlib` - Visualization
+- `numpy`, `pandas` - Data manipulation
+- `scikit-learn` - Traditional ML models
+- `pyyaml` - Configuration file parsing
+
+### 3. Dataset Setup
+
+**Download the AgroPest-12 dataset:**
+
+1. Visit the [AgroPest-12 dataset on Kaggle](https://www.kaggle.com/datasets/your-dataset-link)
+2. Download and extract the dataset
+3. Place the extracted `dataset/` folder in the **root directory** of this project
+
+**Expected structure:**
+
+```
+dataset/
+├── data.yaml          # Dataset configuration file
+├── train/
+│   ├── images/
+│   └── labels/
+├── valid/
+│   ├── images/
+│   └── labels/
+└── test/
+    ├── images/
+    └── labels/
+```
+
+
+#### YAML Configuration
+
+If your model requires a `data.yaml` configuration file for distorted datasets, create one manually:
+
+```yaml
+# dataset_mild_distortion/data_mild.yaml
+path: ../dataset_mild_distortion
+train: train/images
+val: valid/images
+test: test/images
+
+names:
+  0: Ants
+  1: Bees
+  2: Beetles
+  # ... (all 12 classes)
+```
+
+**Important:** Do **not** push distorted datasets to GitHub. Keep them local to avoid repository size issues.
+
+---
+
+## Running the Code
+
+### Detectron 2
+Navigate to `Detectron2/` - designed for Google Colab (see notebook for setup)
+
+### HOG Detector
+1. Navigate to `HoG_Detector_v1.0/` and `SVM/` and follow notebook instructions
+2. Open in Jupyter Notebook or VS Code
+3. **Run all cells sequentially from top to bottom**
+
+### YOLOv11n 
+1. Navigate to `YOLOv11n/yolov11n.ipynb`
+2. Open in Jupyter Notebook or VS Code
+3. **Run all cells sequentially from top to bottom**
+
+**Training notes (YOLO):**
+- Training takes **~2-3 hours** on an RTX 3060 (12GB VRAM)
+- Results are saved to `training/results/`, `validation/results/`, `testing/results/`
+
+
+---
+
+## Distortion Processing Script (Robustness Testing)
+
+The `distortion_processing.py` script generates distorted versions of the original dataset to evaluate model robustness under challenging conditions such as noise, blur, poor lighting, and partial occlusions.
+
+### What It Does
+
+The script creates two distorted dataset variants:
+
+1. **Mild Distortion** (`dataset_mild_distortion/`)
+   - Gaussian noise: σ=5
+   - Gaussian blur: kernel size 3×3
+   - Brightness adjustment: α=1.1, β=10
+   - Random occlusions: 5% of image area
+
+2. **Strong Distortion** (`dataset_strong_distortion/`)
+   - Gaussian noise: σ=25
+   - Gaussian blur: kernel size 7×7
+   - Brightness adjustment: α=1.3, β=40
+   - Random occlusions: 20% of image area
+
+The script processes all images in `train/`, `valid/`, and `test/` splits, applies distortions, and copies corresponding label files unchanged.
+
+### How to Run
+
+**Ensure you are in the project root directory**, then run:
+
+```bash
+python distortion_processing.py
+```
+
+This will create two new directories:
+- `dataset_mild_distortion/`
+- `dataset_strong_distortion/`
+
+Each will have the same structure as the original `dataset/` folder with distorted images.
+
+### Customization
+
+**To process only the test set** (faster, sufficient for evaluation):
+
+Edit line 52 in `distortion_processing.py`:
+
+```python
+# Change this:
+for split in ['train', 'valid', 'test']:
+
+# To this:
+for split in ['test']:
+```
+
+**To adjust distortion parameters:**
+
+Modify the `distortions` dictionary at the top of the script (lines 10-24).
+
+---
+
+## Model Training Recommendations
+
+Since trained models are not included in this repository due to size constraints, **we recommend training models locally** with the following hardware:
+
+- **Minimum:** NVIDIA GPU with 8GB VRAM (e.g., RTX 2060, GTX 1070)
+- **Recommended:** 12GB+ VRAM (e.g., RTX 3060, RTX 4070)
+- **CPU training:** Possible but very slow (not recommended)
+
+**Training times (approximate):**
+- YOLOv11n: 2-4 hours (RTX 3060, 100 epochs)
+- YOLOv8n: 1-2 hours (RTX 3060, 50 epochs)
+- HOG+SVM: 10-30 minutes (CPU acceptable)
+
+**Pretrained YOLO weights:**
+- Models automatically download `yolo11n.pt` / `yolov8n.pt` on first run
+- These are pretrained on COCO dataset and fine-tuned on AgroPest-12
+
+---
+
+## Results and Outputs
+
+After training and evaluation, results are saved in model-specific directories:
+
+**YOLOv11n outputs:**
+- `training/results/` - Training logs, loss curves, best/last weights
+- `validation/results/` - Validation metrics, confusion matrix
+- `testing/results/` - Test set performance
+- `test_mild/results/`, `test_strong/results/` - Distorted dataset results
+
+**Key metrics reported:**
+- **Classification:** Accuracy, Precision, Recall, F1-score (macro-averaged)
+- **Detection:** Precision, Recall, F1, mAP@0.5, mAP@0.5:0.95
+
+---
+
+## Troubleshooting
+
+**Issue:** `FileNotFoundError: dataset/data.yaml not found`
+- **Solution:** Ensure the `dataset/` folder is in the project root directory
+
+**Issue:** CUDA out of memory
+- **Solution:** Reduce batch size in training cell (e.g., `batch=8` instead of `batch=16`)
+
+**Issue:** Model weights not found after training
+- **Solution:** Check `training/results/weights/` for `best.pt` and `last.pt`
+
+**Issue:** Distortion script fails
+- **Solution:** Ensure `opencv-python` is installed: `pip install opencv-python`
+
+---
+
+## Citation
+
+If you use this code or the AgroPest-12 dataset, please cite:
+
+```
+Rupankar Majumdar, "AgroPest-12: A 12-Class Image Dataset of Crop Insects and Pests," Kaggle, 2025.
+```
+
+---

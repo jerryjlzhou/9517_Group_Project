@@ -1,0 +1,25 @@
+# Core deep learning and computer vision
+ultralytics>=8.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Traditional computer vision and image processing
+opencv-python>=4.8.0
+scikit-image>=0.21.0
+
+# Machine learning
+scikit-learn>=1.3.0
+
+# Data manipulation and visualization
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+
+# Image handling
+Pillow>=10.0.0
+
+# Configuration and serialization
+pyyaml>=6.0
+
+# Model persistence
+joblib>=1.3.0
