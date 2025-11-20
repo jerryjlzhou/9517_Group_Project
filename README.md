@@ -132,7 +132,7 @@ names:
 ## Running the Code
 
 ### Detectron 2
-Navigate to `Detectron2/` - designed for Google Colab (see notebook for setup)
+Navigate to `Detectron2/` - designed for Google Colab. Run/View the model at https://colab.research.google.com/drive/1zwVnR39lfiR3TlyZikM0m1DuwKFL05AB
 
 ### HOG Detector
 1. Navigate to `HoG_Detector_v1.0/` and `SVM/` and follow notebook instructions
