@@ -209,32 +209,13 @@ Modify the `distortions` dictionary at the top of the script (lines 10-24).
 
 ## Model Training Recommendations
 
-Since trained models are not included in this repository due to size constraints, **we recommend training models locally** with the following hardware:
-
-- **Minimum:** NVIDIA GPU with 8GB VRAM (e.g., RTX 2060, GTX 1070)
-- **Recommended:** 12GB+ VRAM (e.g., RTX 3060, RTX 4070)
-- **CPU training:** Possible but very slow (not recommended)
-
-**Training times (approximate):**
-- YOLOv11n: 2-4 hours (RTX 3060, 100 epochs)
-- YOLOv8n: 1-2 hours (RTX 3060, 50 epochs)
-- HOG+SVM: 10-30 minutes (CPU acceptable)
-
-**Pretrained YOLO weights:**
-- Models automatically download `yolo11n.pt` / `yolov8n.pt` on first run
-- These are pretrained on COCO dataset and fine-tuned on AgroPest-12
+Since trained models are not included in this repository due to size constraints, **we recommend training models locally** or via cloud computing such as **Google Colab**
 
 ---
 
 ## Results and Outputs
 
-After training and evaluation, results are saved in model-specific directories:
-
-**YOLOv11n outputs:**
-- `training/results/` - Training logs, loss curves, best/last weights
-- `validation/results/` - Validation metrics, confusion matrix
-- `testing/results/` - Test set performance
-- `test_mild/results/`, `test_strong/results/` - Distorted dataset results
+After training and evaluation, results are saved in model-specific directories, or inside notebook outputs. Also see the report for full results breakdown.
 
 **Key metrics reported:**
 - **Classification:** Accuracy, Precision, Recall, F1-score (macro-averaged)
@@ -242,21 +223,6 @@ After training and evaluation, results are saved in model-specific directories:
 
 ---
 
-## Troubleshooting
-
-**Issue:** `FileNotFoundError: dataset/data.yaml not found`
-- **Solution:** Ensure the `dataset/` folder is in the project root directory
-
-**Issue:** CUDA out of memory
-- **Solution:** Reduce batch size in training cell (e.g., `batch=8` instead of `batch=16`)
-
-**Issue:** Model weights not found after training
-- **Solution:** Check `training/results/weights/` for `best.pt` and `last.pt`
-
-**Issue:** Distortion script fails
-- **Solution:** Ensure `opencv-python` is installed: `pip install opencv-python`
-
----
 
 ## Citation
 
