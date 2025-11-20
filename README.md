@@ -106,26 +106,7 @@ dataset/
     └── labels/
 ```
 
-
-#### YAML Configuration
-
-If your model requires a `data.yaml` configuration file for distorted datasets, create one manually:
-
-```yaml
-# dataset_mild_distortion/data_mild.yaml
-path: ../dataset_mild_distortion
-train: train/images
-val: valid/images
-test: test/images
-
-names:
-  0: Ants
-  1: Bees
-  2: Beetles
-  # ... (all 12 classes)
-```
-
-**Important:** Do **not** push distorted datasets to GitHub. Keep them local to avoid repository size issues.
+**Important:** Do **not** push datasets to GitHub. Keep them local to avoid repository size issues.
 
 ---
 
@@ -204,6 +185,36 @@ for split in ['test']:
 **To adjust distortion parameters:**
 
 Modify the `distortions` dictionary at the top of the script (lines 10-24).
+
+
+#### YAML Configuration
+
+If your model requires a `data.yaml` configuration file for distorted datasets, create one manually:
+
+```yaml
+# dataset_mild_distortion/data_mild.yaml
+path: ../dataset_mild_distortion
+
+# Customize which splits you want to include
+train: train/images
+val: valid/images
+test: test/images
+
+nc=12
+names:
+  0: Ants
+  1: Bees
+  2: Beetles
+  3: Caterpillars
+  4: Earthworms
+  5: Earwigs
+  6: Grasshoppers
+  7: Moths
+  8: Slugs
+  9: Snails
+  10: Wasps
+  11: Weevils
+```
 
 ---
 
