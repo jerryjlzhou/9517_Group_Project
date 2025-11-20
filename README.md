@@ -6,7 +6,7 @@
 | Name          | zID        |
 |----------------|------------|
 | Jerry Zhou     | z5477946   |
-| Member 2       | z          |
+| Rishi Adhavaryu| z5420526   |
 | Member 3       | z          |
 | Member 4       | z          |
 | Member 5       | z          |
