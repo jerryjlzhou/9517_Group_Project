@@ -7,7 +7,7 @@
 |----------------|------------|
 | Jerry Zhou     | z5477946   |
 | Rishi Adhavaryu| z5420526   |
-| Member 3       | z          |
+| Zhaoyuan Xu    | z5615760   |
 | Member 4       | z          |
 | Member 5       | z          |
 
